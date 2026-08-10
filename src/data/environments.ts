@@ -1,0 +1,108 @@
+import type { EnvironmentInfo } from "@/lib/types";
+
+export const ENVIRONMENTS: Record<string, EnvironmentInfo> = {
+  dengue: {
+    climate: "Tropical & subtropical monsoon — 26–34°C",
+    temperature: "Vector thrives 25–35°C; virus replication peaks at 30°C",
+    humidity: "High humidity >65% extends Aedes survival",
+    terrain: "Dense urban plains — Lahore, Karachi, Rawalpindi",
+    waterSanitation: "Clean stagnant water — overhead tanks, tyres, flower pots, construction pits",
+    seasonality: "Aug–Nov post-monsoon; explosive after urban flooding",
+    urbanRural: "Urban > peri-urban > rural",
+    carryingMedium: "Aedes aegypti / albopictus daytime bite",
+    description:
+      "Dengue is Pakistan's quintessential urban monsoon disease. Aedes aegypti breeds in man-made clean-water containers within 100 m of homes. One infected mosquito can infect a whole lane. Dense, unplanned neighbourhoods with intermittent water supply (forcing storage) are hotspots.",
+    riskFactors: ["Intermittent water supply → storage", "Construction sites", "Non-biodegradable tyres & trash", "Poor solid-waste management"],
+  },
+  malaria: {
+    climate: "Semi-arid to humid — riverine Indus basin, Balochistan coast",
+    temperature: "Anopheles breeding 20–32°C; parasite development faster above 25°C",
+    humidity: "Moderate–high, needs standing fresh/brackish water",
+    terrain: "Riverine floodplains, rice fields, coastal marshes, post-flood pools across Sindh & Balochistan",
+    waterSanitation: "Large turbid water bodies — flooded fields, canals, dhands — plus poor drainage",
+    seasonality: "Two peaks: Aug–Nov (post-monsoon) and Mar–May (spring); year-round in Sindh coast",
+    urbanRural: "Rural > flood-displaced camps > urban fringes",
+    carryingMedium: "Anopheles culicifacies, stephensi, superpictus — dusk-to-dawn",
+    description:
+      "Malaria reclaimed Sindh after the 2022 super-floods. The 2023 resurgence (>2M cases) mapped almost perfectly to satellite flood-inundation layers. Kech, Dadu, Khairpur and Larkana sit on perennial canal irrigation where Anopheles breeds year-round.",
+    riskFactors: ["Canal irrigation & rice paddies", "Flood water pooling >2 weeks", "Mud housing with eave gaps", "Low LLIN/IRS coverage in Balochistan"],
+  },
+  tuberculosis: {
+    climate: "All climates — driven by indoor crowding, not weather, but winter indoor confinement spikes transmission",
+    temperature: "Mycobacterium survives weeks in dried sputum at 20–30°C",
+    humidity: "Low ventilation + low humidity worsens airborne stay",
+    terrain: "Urban slums, prisons, brick kilns, mining areas — Karachi, Lahore, Faisalabad, Quetta",
+    waterSanitation: "Not water-borne; transmission is airborne — crowding, poor ventilation, biomass smoke",
+    seasonality: "Notifications rise in spring (winter transmission detected late)",
+    urbanRural: "Urban slums > rural but rural under-detected",
+    carryingMedium: "Airborne droplet nuclei 1–5 µm from coughing case",
+    description:
+      "TB is Pakistan's airborne disease of poverty density. A single untreated smear-positive case in a 10×10 ft room with 6 occupants will infect 10–15 people per year. Punjab contributes 52% of cases by absolute number due to population, but prison and diabetes-clinic hotspots drive MDR.",
+    riskFactors: ["Overcrowded housing (<2 m² per person)", "Diabetes prevalence 26.7% adult", "Tobacco & biomass smoke", "Prison & healthcare-worker exposure"],
+  },
+  typhoid: {
+    climate: "Hot arid to semi-arid — sewage mixing worse in 38–45°C summer",
+    temperature: "Salmonella Typhi survives months in water at 15–35°C",
+    humidity: "Monsoon sewage overflow contaminates shallow aquifer",
+    terrain: "Old-city cores with leaking mains — Hyderabad, Karachi Lyari, Sukkur, Multan",
+    waterSanitation: "Faecal–oral: municipal water cross-connected to sewage, street ice, unwashed produce",
+    seasonality: "Apr–Oct — peaks with water scarcity + sewage mixing",
+    urbanRural: "Urban poor > rural (better hand-pump isolation)",
+    carryingMedium: "Contaminated water & food handlers — chronic gallbladder carriers",
+    description:
+      "Pakistan is home to the world's only sustained XDR typhoid epidemic (Hyderabad 2016). The environment is literally the pipe network: where water mains run inside open drains, every pressure drop sucks sewage in. That is Hyderabad and Karachi's old city reality.",
+    riskFactors: ["Leaking water mains inside drains", "Unlicensed street food & ice", "Open defecation pockets", "Gallstone prevalence → carriers"],
+  },
+  "hepatitis-c": {
+    climate: "All climates — not climate-driven, driven by injection safety",
+    temperature: "Virus survives days to weeks in blood droplets at room temp",
+    humidity: "N/A",
+    terrain: "Rural Punjab belt (Okara, Sahiwal, Pakpattan) + interior Sindh (Larkana, Shikarpur) — the world's highest injection-use clusters",
+    waterSanitation: "Blood-borne: unsafe therapeutic injections, barber razors, unsterilised dental/surgical tools, unscreened blood",
+    seasonality: "Aseasonal — slow 20–30 year fibrosis epidemic",
+    urbanRural: "Rural > urban — informal 'injectionists' common",
+    carryingMedium: "Blood-to-blood — reused syringes, razors",
+    description:
+      "Pakistan's Hep C is a man-made environmental disaster. WHO estimates Pakistan averages 5–13 therapeutic injections per person per year, one of highest globally. Many are unnecessary antibiotics/vitamins given with reused syringes. Barbershop straight-razors add ~20% of transmission in surveys.",
+    riskFactors: ["Average >8 injections/year", "Reuse of syringes by informal providers", "Barber straight-razor reuse", "Dialysis unit cross-infection"],
+  },
+  poliomyelitis: {
+    climate: "Arid & semi-arid — sewage concentration in low flow",
+    temperature: "Enterovirus stable in faeces at 0–45°C for months",
+    humidity: "Low flow concentrates virus in drains",
+    terrain: "South KP (Bannu, Lakki Marwat, N & S Waziristan) + Karachi Gadap + Quetta block — the Pak–Afghan corridor",
+    waterSanitation: "Faecal–oral: open drains, sewage in streets, low handwashing; virus tracked by environmental (sewage) sampling",
+    seasonality: "Low season Nov–Apr (detection easier), but paralytic cases peak May–Oct",
+    urbanRural: "Mobile tribal populations + Karachi peri-urban UCs",
+    carryingMedium: "Faeces → mouth via water, hands, food",
+    description:
+      "Polio survives in Pakistan because of one environment: the open sewage nala carrying virus from unimmunised child to the next. Southern KP has estimated 250k+ chronically missed children due to insecurity and refusal clusters. Every positive sewage sample = ~200 silent infections.",
+    riskFactors: ["Open drain sewage network", "High zero-dose children (>450k)", "Insecurity blocking vaccinators", "Mobile migration Pak–Afghan"],
+  },
+  "covid-19": {
+    climate: "All climates — indoor air quality is the environment",
+    temperature: "Indoor aerosol stable 20–25°C, low UV",
+    humidity: "Low humidity (<40%) increases aerosol stay; high humidity reduces but increases surface touch",
+    terrain: "Metro indoor spaces — Karachi, Lahore, Islamabad markets, mosques, wedding halls with low ventilation",
+    waterSanitation: "Not water-borne; environment = shared indoor air",
+    seasonality: "Winter surges (Oct–Feb) when windows close; Eid travel spikes",
+    urbanRural: "Urban > rural due to indoor crowding",
+    carryingMedium: "Respiratory aerosol — 2 m indoor, lingers hours without ventilation",
+    description:
+      "COVID-19 in Pakistan tracked air, not water. Waves began in Karachi's dense markets and moved north via bus networks. Ventilation measurements in Lahore wedding halls showed CO₂ >2000 ppm — super-spreader conditions. Hybrid immunity now keeps it endemic at low level.",
+    riskFactors: ["Unventilated indoor gatherings", "Multigenerational housing", "Low booster uptake >60y", "Intercity bus travel"],
+  },
+  measles: {
+    climate: "All climates — most contagious human pathogen (R₀ 12–18)",
+    temperature: "Airborne stable 15–35°C, remains airborne 2 hours",
+    humidity: "Low humidity favours airborne survival",
+    terrain: "Flood displacement camps, urban slums — interior Sindh & Balochistan after 2022–23 floods",
+    waterSanitation: "Not water-borne; environment = crowded air + zero-dose pockets",
+    seasonality: "Dec–Apr peak, trough in monsoon",
+    urbanRural: "Both — camps and slums with <80% two-dose coverage",
+    carryingMedium: "Airborne aerosol — 1 case infects 12–18 susceptives",
+    description:
+      "Measles exploits every immunisation gap. After 2022 floods, 1M+ children became zero-dose in Sindh and Balochistan camps. A measles case in a camp tent = attack rate 70–90% within days. Single-dose coverage ~76%, two-dose only 61–68% nationally.",
+    riskFactors: ["Zero-dose children clusters", "Vitamin A deficiency (halves mortality)", "Flood/displacement crowding", "Cold-chain breaks in remote Balochistan"],
+  },
+};
