@@ -7,6 +7,8 @@ import { Grid2x2Check, MapPin, MousePointerClick, Pause, Play } from "lucide-rea
 import type { RegionKey, RegionStat } from "@/lib/types";
 import { REGIONS, YEARS, YEAR_STATUS, formatCompact } from "@/lib/regions";
 import { useCountUp } from "@/hooks/useCountUp";
+import { useDeferredMount } from "@/hooks/useDeferredMount";
+import { Sparkles } from "lucide-react";
 
 const PakistanMap3D = dynamic(() => import("@/components/three/PakistanMap3D"), {
   ssr: false,
@@ -41,6 +43,8 @@ export default function AtlasCore({
   const [playing, setPlaying] = useState(false);
   const [districts, setDistricts] = useState(true);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const mapHostRef = useRef<HTMLDivElement | null>(null);
+  const mapReady = useDeferredMount({ timeout: 500, rootRef: mapHostRef });
 
   useEffect(() => {
     if (playing) {
@@ -104,16 +108,33 @@ export default function AtlasCore({
           <Grid2x2Check className="h-3 w-3" /> Districts
         </button>
 
-        <div className="relative h-[380px] w-full sm:h-[460px] lg:h-[520px]">
-          <PakistanMap3D
-            values={values}
-            hovered={hovered}
-            onHover={setHovered}
-            onSelect={(k) => setHovered(k)}
-            labels={LABELS}
-            showDistricts={districts}
-          />
-          <div className="pointer-events-none absolute inset-x-8 bottom-3 h-24 rounded-[100%] bg-aqua-200/20 blur-2xl" />
+        <div ref={mapHostRef} className="relative h-[380px] w-full overflow-hidden sm:h-[460px] lg:h-[520px]">
+          {mapReady ? (
+            <>
+              <PakistanMap3D
+                values={values}
+                hovered={hovered}
+                onHover={setHovered}
+                onSelect={(k) => setHovered(k)}
+                labels={LABELS}
+                showDistricts={districts}
+              />
+              <div className="pointer-events-none absolute inset-x-8 bottom-3 h-24 rounded-[100%] bg-aqua-200/20 blur-2xl" />
+            </>
+          ) : (
+            <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-aqua-50 via-white to-aqua-100">
+              <div className="dot-grid absolute inset-0 opacity-40" />
+              <div className="relative flex flex-col items-center gap-3 text-aqua-600">
+                <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white shadow-[0_8px_24px_rgba(11,44,58,0.12)]">
+                  <Sparkles className="h-6 w-6 animate-pulse text-aqua-500" />
+                </div>
+                <span className="text-[11px] font-semibold tracking-wide text-aqua-700">
+                  Preparing interactive 3D map…
+                </span>
+                <span className="text-[10px] text-slate-400">Loaded after the rest of the page for a faster start</span>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="absolute bottom-3 left-3 z-10 right-3 flex justify-between gap-3 sm:bottom-4 sm:left-4 sm:right-auto">

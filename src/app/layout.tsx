@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import { NavBar } from "@/components/NavBar";
 
 export const metadata: Metadata = {
-  title: "OGDCL 3D Atlas — Pakistan Disease Surveillance",
+  title: "OGDCL 3D Atlas — Pakistan Disease Surveillance & Prescription Care",
   description:
-    "OGDCL 3D Atlas: 145-district true-boundary 3D map, decadal trends 2015–2026, yearly leaders, environment niches, city-level dominance and clinical dossiers for Pakistan's priority diseases.",
+    "OGDCL 3D Atlas: 145-district true-boundary 3D map, decadal trends 2015–2026, yearly leaders, environment niches, city-level dominance, clinical dossiers and a smart prescription & medicine reminder module for Pakistan's priority diseases.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -20,7 +21,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <NavBar />
+        {children}
+      </body>
     </html>
   );
 }

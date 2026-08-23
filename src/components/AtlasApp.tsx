@@ -14,7 +14,6 @@ import {
 import type { DiseasePayload, DiseaseSummary, RegionStat } from "@/lib/types";
 import { CURRENT_YEAR, formatCompact } from "@/lib/regions";
 import { diseaseIcon } from "@/lib/icons";
-import { Brand } from "@/components/Brand";
 import AtlasCore from "@/components/AtlasCore";
 import TrendsPanel from "@/components/TrendsPanel";
 import YearlyLeaders from "@/components/YearlyLeaders";
@@ -75,22 +74,10 @@ export default function AtlasApp() {
 
   return (
     <div className="min-h-dvh bg-[#f6fbfc]">
-      {/* header */}
-      <header className="sticky top-0 z-40 border-b border-aqua-100 bg-white/90 backdrop-blur-xl">
-        <div className="mx-auto flex h-14 max-w-[1600px] items-center justify-between px-4 sm:px-6">
-          <Brand />
-          <div className="hidden items-center gap-4 text-[11px] text-slate-400 md:flex">
-            <span>2015–2026 · 145 districts</span>
-            <span className="h-3 w-px bg-aqua-100" />
-            <span>OGDCL HSE Intelligence</span>
-          </div>
-        </div>
-      </header>
-
       {/* disease selector — horizontal on mobile, becomes sticky side rail on xl */}
       <div className="mx-auto max-w-[1600px] px-3 py-3 sm:px-6 lg:flex lg:gap-4">
         <aside className="lg:w-[200px] lg:shrink-0">
-          <div className="lg:sticky lg:top-[72px]">
+          <div className="lg:sticky lg:top-[68px]">
             <p className="mb-2 hidden px-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400 lg:block">
               Pathogens
             </p>
