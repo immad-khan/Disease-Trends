@@ -21,17 +21,20 @@ interface SpeechResult { results: SpeechResultList[] }
  */
 export function useSpeech(onResult: (text: string) => void): UseSpeechReturn {
   const [listening, setListening] = useState(false);
+  const [supported, setSupported] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recognitionRef = useRef<any>(null);
   const callbackRef = useRef(onResult);
   callbackRef.current = onResult;
 
-  const supported =
-    typeof window !== "undefined" &&
-    Boolean(
-      (window as unknown as Record<string, unknown>).SpeechRecognition ||
-        (window as unknown as Record<string, unknown>).webkitSpeechRecognition
+  useEffect(() => {
+    setSupported(
+      Boolean(
+        (window as unknown as Record<string, unknown>).SpeechRecognition ||
+          (window as unknown as Record<string, unknown>).webkitSpeechRecognition
+      )
     );
+  }, []);
 
   const start = useCallback(() => {
     if (!supported) return;
