@@ -1,6 +1,4 @@
-import { db } from "@/db";
-import { regionalStats } from "@/db/schema";
-import { eq, asc } from "drizzle-orm";
+import { buildRegionalRows } from "@/db/data/trends";
 
 export const dynamic = "force-dynamic";
 
@@ -9,11 +7,10 @@ export async function GET(req: Request) {
   const disease = searchParams.get("disease");
   if (!disease) return Response.json({ error: "disease param required" }, { status: 400 });
 
-  const rows = await db
-    .select()
-    .from(regionalStats)
-    .where(eq(regionalStats.diseaseSlug, disease))
-    .orderBy(asc(regionalStats.year));
+  const allStats = buildRegionalRows();
+  const rows = allStats
+    .filter(s => s.diseaseSlug === disease)
+    .sort((a, b) => a.year - b.year);
 
   return Response.json(rows);
 }
