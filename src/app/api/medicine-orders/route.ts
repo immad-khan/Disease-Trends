@@ -1,6 +1,6 @@
-export const dynamic = "force-dynamic";
+import { getOrders, addOrder } from "@/lib/jsonStore";
 
-let mockOrders: any[] = [];
+export const dynamic = "force-dynamic";
 
 function orderNumber() {
   const d = new Date();
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
       vendor: { name: "Al-Shifa Pharmacy", branch: "Main Branch", authorizedPerson: "Dr. Usman", phone: "042-31112222", address: "123 Health Ave", mapsUrl: "" }
     };
     
-    mockOrders.unshift(newOrder);
+    addOrder(newOrder);
 
     const forwardedHost = req.headers.get("x-forwarded-host") || req.headers.get("host");
     const forwardedProto = req.headers.get("x-forwarded-proto") || "https";
@@ -75,5 +75,6 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  return Response.json({ orders: mockOrders, smtpConfigured: false });
+  const orders = getOrders();
+  return Response.json({ orders, smtpConfigured: false });
 }

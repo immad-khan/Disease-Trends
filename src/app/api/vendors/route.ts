@@ -1,15 +1,13 @@
-export const dynamic = "force-dynamic";
+import { getVendors, addVendor } from "@/lib/jsonStore";
 
-let mockVendors = [
-  { id: "ven-1", name: "Al-Shifa Pharmacy", branch: "Main Branch", email: "contact@alshifa.com", phone: "042-31112222", authorizedPerson: "Dr. Usman", licenseNo: "LIC-8812", address: "123 Health Ave", city: "Lahore", latitude: 31.5204, longitude: 74.3587, mapsUrl: "", status: "active" },
-  { id: "ven-2", name: "City Meds", branch: "DHA Phase 5", email: "dha@citymeds.pk", phone: "042-35556666", authorizedPerson: "Ali Raza", licenseNo: "LIC-9923", address: "45-A DHA Phase 5", city: "Lahore", latitude: 31.4646, longitude: 74.4098, mapsUrl: "", status: "active" },
-];
+export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const city = searchParams.get("city")?.trim().toLowerCase();
   
-  let rows = mockVendors.filter(v => v.status === "active");
+  const allVendors = getVendors();
+  let rows = allVendors.filter(v => v.status === "active");
   if (city) {
     rows = rows.filter(v => v.city.toLowerCase() === city);
   }
@@ -33,7 +31,8 @@ export async function POST(req: Request) {
       latitude: latitude || null, longitude: longitude || null,
       mapsUrl: gmaps, status: "active",
     };
-    mockVendors.push(newVendor);
+    
+    addVendor(newVendor);
     
     return Response.json({ ok: true, vendor: newVendor });
   } catch (e) {
