@@ -1,20 +1,19 @@
-import { db } from "@/db";
-import { medicineVendors } from "@/db/schema";
-import { and, asc, eq, ilike } from "drizzle-orm";
-
 export const dynamic = "force-dynamic";
+
+let mockVendors = [
+  { id: "ven-1", name: "Al-Shifa Pharmacy", branch: "Main Branch", email: "contact@alshifa.com", phone: "042-31112222", authorizedPerson: "Dr. Usman", licenseNo: "LIC-8812", address: "123 Health Ave", city: "Lahore", latitude: 31.5204, longitude: 74.3587, mapsUrl: "", status: "active" },
+  { id: "ven-2", name: "City Meds", branch: "DHA Phase 5", email: "dha@citymeds.pk", phone: "042-35556666", authorizedPerson: "Ali Raza", licenseNo: "LIC-9923", address: "45-A DHA Phase 5", city: "Lahore", latitude: 31.4646, longitude: 74.4098, mapsUrl: "", status: "active" },
+];
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const city = searchParams.get("city")?.trim();
-  const where = city
-    ? and(eq(medicineVendors.status, "active"), ilike(medicineVendors.city, city))
-    : eq(medicineVendors.status, "active");
-  const rows = await db
-    .select()
-    .from(medicineVendors)
-    .where(where)
-    .orderBy(asc(medicineVendors.name), asc(medicineVendors.branch));
+  const city = searchParams.get("city")?.trim().toLowerCase();
+  
+  let rows = mockVendors.filter(v => v.status === "active");
+  if (city) {
+    rows = rows.filter(v => v.city.toLowerCase() === city);
+  }
+  
   return Response.json({ vendors: rows });
 }
 
@@ -27,14 +26,16 @@ export async function POST(req: Request) {
     }
     const id = `ven-${crypto.randomUUID().slice(0, 8)}`;
     const gmaps = mapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${name} ${branch} ${city}`)}`;
-    await db.insert(medicineVendors).values({
+    
+    const newVendor = {
       id, name, branch, email, phone: phone || null, authorizedPerson,
       licenseNo: licenseNo || null, address, city,
       latitude: latitude || null, longitude: longitude || null,
       mapsUrl: gmaps, status: "active",
-    });
-    const [row] = await db.select().from(medicineVendors).where(eq(medicineVendors.id, id)).limit(1);
-    return Response.json({ ok: true, vendor: row });
+    };
+    mockVendors.push(newVendor);
+    
+    return Response.json({ ok: true, vendor: newVendor });
   } catch (e) {
     return Response.json({ ok: false, error: e instanceof Error ? e.message : "Failed" }, { status: 500 });
   }
