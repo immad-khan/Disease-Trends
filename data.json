@@ -48,6 +48,124 @@
   ],
   "orders": [
     {
+      "id": "ba5e374c-d670-4ffe-91bf-3dd59406f671",
+      "orderNo": "RX-20260827-0D545F",
+      "patientId": "pat-1",
+      "vendorId": "ven-4d4edc56",
+      "doctorName": "Dr. Sarah Ahmed",
+      "doctorId": "OGD-D-1024",
+      "diagnosis": null,
+      "clinicalNotes": null,
+      "vendorAccessToken": "64461b4011e146d29289de1015ffd3ff4df32fb90c6941d7a6b44aa15142421c",
+      "status": "sent",
+      "vendorEmailStatus": "failed",
+      "patientEmailStatus": "failed",
+      "submittedAt": "2026-08-27T07:07:01.180Z",
+      "items": [
+        {
+          "id": "b743cb5f-1d98-426f-a3e7-04db1f8458e6",
+          "orderId": "ba5e374c-d670-4ffe-91bf-3dd59406f671",
+          "medicineName": "Sofosbuvir + Velpatasvir",
+          "matchedSlug": "sofosbuvir-velpatasvir",
+          "strength": "400 mg/100 mg tablet (fixed-dose combination)",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Velpanat",
+            "Epclusa"
+          ],
+          "availability": "pending"
+        }
+      ],
+      "patient": {
+        "id": "pat-1",
+        "medicalRecordNo": "MR-001",
+        "fullName": "Ahmad Khan",
+        "city": "Lahore",
+        "email": "ahmad@example.com",
+        "phone": "0300-1234567",
+        "allergies": [
+          "Penicillin"
+        ]
+      },
+      "vendor": {
+        "id": "ven-4d4edc56",
+        "name": "Shaheen CHemist",
+        "branch": "Islamabad",
+        "email": "immadkhan303@gmail.com",
+        "phone": "03038064241",
+        "authorizedPerson": "Ahmed Haroon",
+        "licenseNo": "jdw33",
+        "address": "F6 markaz",
+        "city": "Islamabad",
+        "latitude": null,
+        "longitude": null,
+        "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+        "status": "active"
+      }
+    },
+    {
+      "id": "54d2590e-4b56-4376-b62a-d9192945c539",
+      "orderNo": "RX-20260827-8E91C4",
+      "patientId": "pat-2",
+      "vendorId": "ven-4d4edc56",
+      "doctorName": "Dr. Sarah Ahmed",
+      "doctorId": "OGD-D-1024",
+      "diagnosis": null,
+      "clinicalNotes": null,
+      "vendorAccessToken": "f16d387e1a754285a3d7251bf5a5a2cdf2e21188b1784d53907a36d63e744d9b",
+      "status": "sent",
+      "vendorEmailStatus": "failed",
+      "patientEmailStatus": "failed",
+      "submittedAt": "2026-08-27T06:57:28.011Z",
+      "items": [
+        {
+          "id": "6502713f-cba5-4f35-afec-8a7b27014c37",
+          "orderId": "54d2590e-4b56-4376-b62a-d9192945c539",
+          "medicineName": "Amoxicillin",
+          "matchedSlug": "amoxicillin",
+          "strength": "250 mg capsule",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Amoxil",
+            "Ospamox"
+          ],
+          "availability": "pending"
+        }
+      ],
+      "patient": {
+        "id": "pat-2",
+        "medicalRecordNo": "MR-002",
+        "fullName": "Fatima Ali",
+        "city": "Karachi",
+        "email": "fatima@example.com",
+        "phone": "0321-7654321",
+        "allergies": []
+      },
+      "vendor": {
+        "id": "ven-4d4edc56",
+        "name": "Shaheen CHemist",
+        "branch": "Islamabad",
+        "email": "immadkhan303@gmail.com",
+        "phone": "03038064241",
+        "authorizedPerson": "Ahmed Haroon",
+        "licenseNo": "jdw33",
+        "address": "F6 markaz",
+        "city": "Islamabad",
+        "latitude": null,
+        "longitude": null,
+        "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+        "status": "active"
+      }
+    },
+    {
       "id": "fabdd125-cfe4-470e-9cbf-2c0a970e4203",
       "orderNo": "RX-20260827-BFC197",
       "patientId": "pat-2",

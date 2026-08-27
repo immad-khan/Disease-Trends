@@ -1,40 +1,172 @@
-import { eq } from "drizzle-orm";
-import { db } from "@/db";
-import { orderItems, orders, patients, vendors } from "@/db/schema";
-import type { Availability } from "@/lib/helpers";
+import { getOrder, updateOrder, updateOrderItem } from "@/lib/jsonStore";
 
 export type VendorPayload = {
-  order: typeof orders.$inferSelect;
-  patient: typeof patients.$inferSelect;
-  vendor: typeof vendors.$inferSelect;
-  items: (typeof orderItems.$inferSelect)[];
+  order: {
+    id: number;
+    code: string;
+    patientId: number;
+    vendorId: number;
+    doctorName: string;
+    doctorId: string;
+    diagnosis: string | null;
+    clinicalNotes: string | null;
+    status: string;
+    vendorToken: string;
+    pickupCode: string;
+    paymentMethod: string;
+    paymentStatus: string;
+    invoiceNumber: string | null;
+    deliveryFee: string;
+    vendorNotes: string | null;
+    acknowledgedAt: string | null;
+    fulfilledAt: string | null;
+    collectedAt: string | null;
+    createdAt: string;
+    updatedAt: string;
+  };
+  patient: {
+    id: number;
+    code: string;
+    name: string;
+    age: number | null;
+    gender: string | null;
+    phone: string | null;
+    allergies: string | null;
+  };
+  vendor: {
+    id: number;
+    name: string;
+    branch: string | null;
+    city: string | null;
+    authorizedPerson: string | null;
+    license: string | null;
+    email: string | null;
+    phone: string | null;
+    address: string | null;
+  };
+  items: {
+    id: number;
+    orderId: number;
+    position: number;
+    medicineName: string;
+    strength: string | null;
+    dose: string | null;
+    frequency: string | null;
+    duration: string | null;
+    quantity: number;
+    instructions: string | null;
+    alternatives: string | null;
+    availability: string;
+    qtySupplied: number;
+    substitutedName: string | null;
+    unitPrice: string | null;
+    discountPct: string;
+    batchNumber: string | null;
+    expiryDate: string | null;
+    dispensed: boolean;
+    vendorNote: string | null;
+  }[];
 };
 
+function stableHash(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash);
+}
+
+function mapOrder(rawOrder: any): VendorPayload | null {
+  if (!rawOrder) return null;
+
+  const patient = rawOrder.patient ?? {};
+  const vendor = rawOrder.vendor ?? {};
+  const rawItems = rawOrder.items ?? [];
+
+  const orderIdNum = stableHash(rawOrder.id);
+  const vendorIdNum = stableHash(rawOrder.vendorId);
+  const patientIdNum = stableHash(rawOrder.patientId);
+
+  const items = rawItems.map((item: any, idx: number) => ({
+    id: stableHash(item.id),
+    orderId: orderIdNum,
+    position: idx,
+    medicineName: item.medicineName ?? "",
+    strength: item.strength ?? null,
+    dose: item.dosage ?? item.dose ?? null,
+    frequency: item.frequency ?? null,
+    duration: item.duration ?? null,
+    quantity: item.quantity ?? 1,
+    instructions: item.instructions ?? null,
+    alternatives: Array.isArray(item.alternatives) ? item.alternatives.join(", ") : (item.alternatives ?? null),
+    availability: item.availability ?? "pending",
+    qtySupplied: item.qtySupplied ?? 0,
+    substitutedName: item.substitutedName ?? null,
+    unitPrice: item.unitPrice ?? null,
+    discountPct: item.discountPct ?? "0",
+    batchNumber: item.batchNumber ?? null,
+    expiryDate: item.expiryDate ?? null,
+    dispensed: item.dispensed ?? false,
+    vendorNote: item.vendorNote ?? null,
+  }));
+
+  return {
+    order: {
+      id: orderIdNum,
+      code: rawOrder.orderNo ?? rawOrder.code ?? "RX-0000",
+      patientId: patientIdNum,
+      vendorId: vendorIdNum,
+      doctorName: rawOrder.doctorName ?? "",
+      doctorId: rawOrder.doctorId ?? "",
+      diagnosis: rawOrder.diagnosis ?? null,
+      clinicalNotes: rawOrder.clinicalNotes ?? null,
+      status: rawOrder.status ?? "sent",
+      vendorToken: rawOrder.vendorAccessToken ?? rawOrder.vendorToken ?? "",
+      pickupCode: rawOrder.pickupCode ?? "0000",
+      paymentMethod: rawOrder.paymentMethod ?? "cash",
+      paymentStatus: rawOrder.paymentStatus ?? "unpaid",
+      invoiceNumber: rawOrder.invoiceNumber ?? null,
+      deliveryFee: String(rawOrder.deliveryFee ?? "0"),
+      vendorNotes: rawOrder.vendorNotes ?? null,
+      acknowledgedAt: rawOrder.acknowledgedAt ?? null,
+      fulfilledAt: rawOrder.fulfilledAt ?? null,
+      collectedAt: rawOrder.collectedAt ?? null,
+      createdAt: rawOrder.submittedAt ?? rawOrder.createdAt ?? new Date().toISOString(),
+      updatedAt: rawOrder.updatedAt ?? new Date().toISOString(),
+    },
+    patient: {
+      id: patientIdNum,
+      code: patient.medicalRecordNo ?? patient.code ?? "MR-000",
+      name: patient.fullName ?? patient.name ?? "Unknown",
+      age: patient.age ?? null,
+      gender: patient.gender ?? null,
+      phone: patient.phone ?? null,
+      allergies: Array.isArray(patient.allergies) ? patient.allergies.join(", ") : (patient.allergies ?? null),
+    },
+    vendor: {
+      id: vendorIdNum,
+      name: vendor.name ?? "",
+      branch: vendor.branch ?? null,
+      city: vendor.city ?? null,
+      authorizedPerson: vendor.authorizedPerson ?? null,
+      license: vendor.licenseNo ?? vendor.license ?? null,
+      email: vendor.email ?? null,
+      phone: vendor.phone ?? null,
+      address: vendor.address ?? null,
+    },
+    items,
+  };
+}
+
 export async function getVendorPayload(token: string): Promise<VendorPayload | null> {
-  const [order] = await db.select().from(orders).where(eq(orders.vendorToken, token)).limit(1);
-  if (!order) return null;
-  const [patient] = await db
-    .select()
-    .from(patients)
-    .where(eq(patients.id, order.patientId))
-    .limit(1);
-  const [vendor] = await db
-    .select()
-    .from(vendors)
-    .where(eq(vendors.id, order.vendorId))
-    .limit(1);
-  const items = await db
-    .select()
-    .from(orderItems)
-    .where(eq(orderItems.orderId, order.id))
-    .orderBy(orderItems.position);
-  if (!patient || !vendor) return null;
-  return { order, patient, vendor, items };
+  const rawOrder = getOrder(token);
+  if (!rawOrder) return null;
+  return mapOrder(rawOrder);
 }
 
 export type FulfillmentItemInput = {
   id: number;
-  availability: Availability;
+  availability: string;
   qtySupplied: number;
   substitutedName: string;
   unitPrice: string;
@@ -65,10 +197,14 @@ export async function applyFulfillment(
   if (!current) throw new Error("Order not found for this fulfillment link.");
   const { order } = current;
 
-  const itemById = new Map(current.items.map((i) => [i.id, i]));
-  const now = new Date();
+  const rawOrder = getOrder(token);
+  if (!rawOrder) throw new Error("Order not found.");
+  const rawItems: any[] = rawOrder.items ?? [];
 
-  // Validate + normalize items
+  const itemById = new Map(current.items.map((i) => [i.id, i]));
+  const rawItemByHashId = new Map(rawItems.map((ri: any) => [stableHash(ri.id), ri]));
+  const now = new Date().toISOString();
+
   const normalized: FulfillmentItemInput[] = body.items.map((input) => {
     const existing = itemById.get(input.id);
     if (!existing) throw new Error("Unknown line item in payload.");
@@ -110,30 +246,25 @@ export async function applyFulfillment(
       throw new Error("Pickup code does not match the code shared with the patient.");
   }
 
-  // Persist items
   for (const input of normalized) {
-    const existing = itemById.get(input.id)!;
-    const dispensed =
-      body.action === "collect" ? true : Boolean(input.dispensed);
-    await db
-      .update(orderItems)
-      .set({
-        availability: input.availability,
-        qtySupplied: input.qtySupplied,
-        substitutedName: input.substitutedName.trim() || null,
-        unitPrice: input.unitPrice,
-        discountPct: input.discountPct,
-        batchNumber: input.batchNumber.trim() || null,
-        expiryDate: input.expiryDate || null,
-        dispensed,
-        dispensedAt: dispensed ? existing.dispensedAt ?? now : null,
-        vendorNote: input.vendorNote.trim() || null,
-      })
-      .where(eq(orderItems.id, input.id));
+    const rawItem = rawItemByHashId.get(input.id);
+    if (!rawItem) continue;
+    const dispensed = body.action === "collect" ? true : Boolean(input.dispensed);
+    const patch: Record<string, unknown> = {
+      availability: input.availability,
+      qtySupplied: input.qtySupplied,
+      substitutedName: input.substitutedName.trim() || null,
+      unitPrice: input.unitPrice,
+      discountPct: input.discountPct,
+      batchNumber: input.batchNumber.trim() || null,
+      expiryDate: input.expiryDate || null,
+      dispensed,
+      vendorNote: input.vendorNote.trim() || null,
+    };
+    updateOrderItem(rawOrder.id, rawItem.id, patch);
   }
 
-  // Order-level updates
-  const orderPatch: Partial<typeof orders.$inferInsert> = {
+  const orderPatch: Record<string, unknown> = {
     deliveryFee: String(Math.max(0, parseFloat(body.order.deliveryFee) || 0)),
     paymentMethod: body.order.paymentMethod,
     paymentStatus: body.order.paymentStatus,
@@ -156,7 +287,7 @@ export async function applyFulfillment(
     orderPatch.collectedAt = now;
   }
 
-  await db.update(orders).set(orderPatch).where(eq(orders.id, order.id));
+  updateOrder(token, orderPatch);
 
   const fresh = await getVendorPayload(token);
   if (!fresh) throw new Error("Failed to reload order after update.");
