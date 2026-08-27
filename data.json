@@ -1,0 +1,169 @@
+{
+  "vendors": [
+    {
+      "id": "ven-1",
+      "name": "Al-Shifa Pharmacy",
+      "branch": "Main Branch",
+      "email": "contact@alshifa.com",
+      "phone": "042-31112222",
+      "authorizedPerson": "Dr. Usman",
+      "licenseNo": "LIC-8812",
+      "address": "123 Health Ave",
+      "city": "Lahore",
+      "latitude": 31.5204,
+      "longitude": 74.3587,
+      "mapsUrl": "",
+      "status": "active"
+    },
+    {
+      "id": "ven-2",
+      "name": "City Meds",
+      "branch": "DHA Phase 5",
+      "email": "dha@citymeds.pk",
+      "phone": "042-35556666",
+      "authorizedPerson": "Ali Raza",
+      "licenseNo": "LIC-9923",
+      "address": "45-A DHA Phase 5",
+      "city": "Lahore",
+      "latitude": 31.4646,
+      "longitude": 74.4098,
+      "mapsUrl": "",
+      "status": "active"
+    },
+    {
+      "id": "ven-4d4edc56",
+      "name": "Shaheen CHemist",
+      "branch": "Islamabad",
+      "email": "immadkhan303@gmail.com",
+      "phone": "03038064241",
+      "authorizedPerson": "Ahmed Haroon",
+      "licenseNo": "jdw33",
+      "address": "F6 markaz",
+      "city": "Islamabad",
+      "latitude": null,
+      "longitude": null,
+      "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+      "status": "active"
+    }
+  ],
+  "orders": [
+    {
+      "id": "fabdd125-cfe4-470e-9cbf-2c0a970e4203",
+      "orderNo": "RX-20260827-BFC197",
+      "patientId": "pat-2",
+      "vendorId": "ven-4d4edc56",
+      "doctorName": "Dr. Sarah Ahmed",
+      "doctorId": "OGD-D-1024",
+      "diagnosis": null,
+      "clinicalNotes": null,
+      "vendorAccessToken": "5319425eba024e1fbe18b8b07284af098ca0af00c4eb47bc91fa43796a42d940",
+      "status": "sent",
+      "vendorEmailStatus": "queued_no_smtp",
+      "patientEmailStatus": "queued_no_smtp",
+      "submittedAt": "2026-08-27T06:00:05.151Z",
+      "items": [
+        {
+          "id": "21251191-5066-4dfd-9278-0dc0e7e7f8e3",
+          "orderId": "fabdd125-cfe4-470e-9cbf-2c0a970e4203",
+          "medicineName": "Paracetamol (Acetaminophen)",
+          "matchedSlug": "paracetamol",
+          "strength": "500 mg tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Panadol",
+            "Calpol"
+          ],
+          "availability": "pending"
+        }
+      ],
+      "patient": {
+        "id": "pat-2",
+        "medicalRecordNo": "MR-002",
+        "fullName": "Fatima Ali",
+        "city": "Karachi",
+        "email": "fatima@example.com",
+        "phone": "0321-7654321",
+        "allergies": []
+      },
+      "vendor": {
+        "id": "ven-4d4edc56",
+        "name": "Shaheen CHemist",
+        "branch": "Islamabad",
+        "email": "immadkhan303@gmail.com",
+        "phone": "03038064241",
+        "authorizedPerson": "Ahmed Haroon",
+        "licenseNo": "jdw33",
+        "address": "F6 markaz",
+        "city": "Islamabad",
+        "latitude": null,
+        "longitude": null,
+        "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+        "status": "active"
+      }
+    },
+    {
+      "id": "17f74ff1-573f-4e5e-973b-1422df498fde",
+      "orderNo": "RX-20260827-423B6C",
+      "patientId": "pat-1",
+      "vendorId": "ven-4d4edc56",
+      "doctorName": "Dr. Sarah Ahmed",
+      "doctorId": "OGD-D-1024",
+      "diagnosis": "Diareah",
+      "clinicalNotes": null,
+      "vendorAccessToken": "b6727ff35d3243e0b96432dcbbc12efff8f12c35c59e40dbad82fafbc38728b6",
+      "status": "sent",
+      "vendorEmailStatus": "failed",
+      "patientEmailStatus": "failed",
+      "submittedAt": "2026-08-27T05:13:56.139Z",
+      "items": [
+        {
+          "id": "e4f42afe-b8df-42ab-bfeb-cb665c629e84",
+          "orderId": "17f74ff1-573f-4e5e-973b-1422df498fde",
+          "medicineName": "Omeprazole",
+          "matchedSlug": "omeprazole",
+          "strength": "20 mg capsule",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Risek",
+            "Losec"
+          ],
+          "availability": "pending"
+        }
+      ],
+      "patient": {
+        "id": "pat-1",
+        "medicalRecordNo": "MR-001",
+        "fullName": "Ahmad Khan",
+        "city": "Lahore",
+        "email": "ahmad@example.com",
+        "phone": "0300-1234567",
+        "allergies": [
+          "Penicillin"
+        ]
+      },
+      "vendor": {
+        "id": "ven-4d4edc56",
+        "name": "Shaheen CHemist",
+        "branch": "Islamabad",
+        "email": "immadkhan303@gmail.com",
+        "phone": "03038064241",
+        "authorizedPerson": "Ahmed Haroon",
+        "licenseNo": "jdw33",
+        "address": "F6 markaz",
+        "city": "Islamabad",
+        "latitude": null,
+        "longitude": null,
+        "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+        "status": "active"
+      }
+    }
+  ]
+}

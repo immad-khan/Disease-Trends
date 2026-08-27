@@ -46,6 +46,24 @@ export function addVendor(vendor: any) {
   writeData(data);
 }
 
+export function updateVendor(id: string, patch: Record<string, unknown>): any | null {
+  const data = readData();
+  const idx = data.vendors.findIndex((v) => v.id === id);
+  if (idx === -1) return null;
+  data.vendors[idx] = { ...data.vendors[idx], ...patch };
+  writeData(data);
+  return data.vendors[idx];
+}
+
+export function deleteVendor(id: string): boolean {
+  const data = readData();
+  const len = data.vendors.length;
+  data.vendors = data.vendors.filter((v) => v.id !== id);
+  if (data.vendors.length === len) return false;
+  writeData(data);
+  return true;
+}
+
 export function getOrders() {
   return readData().orders;
 }
