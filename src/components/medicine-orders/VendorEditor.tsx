@@ -49,12 +49,14 @@ export default function VendorEditor({
 }) {
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
   const [draft, setDraft] = useState<VendorDraft>(emptyDraft());
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
   function startNew() {
     setEditingId(null);
+    setCreating(true);
     setDraft(emptyDraft());
     setOpen(true);
     setMsg(null);
@@ -104,7 +106,7 @@ export default function VendorEditor({
           <Plus className="h-3 w-3" /> Add vendor
         </button>
         {vendors.length > 0 && (
-          <button onClick={() => setOpen(true)} className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-[11px] font-semibold text-slate-500 transition hover:bg-slate-50">
+          <button onClick={() => { setCreating(false); setOpen(true); }} className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-[11px] font-semibold text-slate-500 transition hover:bg-slate-50">
             <Edit3 className="h-3 w-3" /> Edit vendors
           </button>
         )}
@@ -118,7 +120,7 @@ export default function VendorEditor({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/30 backdrop-blur-sm p-4 pt-20"
-            onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
+            onClick={(e) => { if (e.target === e.currentTarget) { setOpen(false); setCreating(false); } }}
           >
             <motion.div
               initial={{ scale: 0.96, y: 16 }}
@@ -133,7 +135,7 @@ export default function VendorEditor({
                     {editingId ? "Edit vendor" : "Manage approved vendors"}
                   </h2>
                 </div>
-                <button onClick={() => setOpen(false)} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-50">
+                <button onClick={() => { setOpen(false); setCreating(false); }} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-50">
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -159,14 +161,14 @@ export default function VendorEditor({
                         </div>
                       </div>
                     ))}
-                    <button onClick={startNew} className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-aqua-200 py-3 text-[12px] font-semibold text-aqua-700 hover:bg-aqua-50">
+                      <button onClick={startNew} className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-aqua-200 py-3 text-[12px] font-semibold text-aqua-700 hover:bg-aqua-50">
                       <Plus className="h-3.5 w-3.5" /> Add new vendor
                     </button>
                   </div>
                 )}
 
                 {/* form — shown when editingId is set OR user clicked "Add new" */}
-                {(editingId || draft.name !== "" || !vendors.length) ? (
+                {(editingId || creating || draft.name !== "" || !vendors.length) ? (
                   <div className="space-y-3">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-aqua-600">
                       {editingId ? `Editing ${draft.name}` : "New vendor details"}
@@ -199,7 +201,7 @@ export default function VendorEditor({
                         {editingId ? "Update" : "Add vendor"}
                       </button>
                       {editingId && (
-                        <button onClick={() => { setEditingId(null); setDraft(emptyDraft()); setMsg(null); }} className="text-[12px] font-medium text-slate-500 hover:text-aqua-700">
+                        <button onClick={() => { setEditingId(null); setCreating(false); setDraft(emptyDraft()); setMsg(null); }} className="text-[12px] font-medium text-slate-500 hover:text-aqua-700">
                           ← Back to list
                         </button>
                       )}
