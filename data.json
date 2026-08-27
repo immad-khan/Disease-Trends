@@ -48,6 +48,66 @@
   ],
   "orders": [
     {
+      "id": "f6503540-0f27-4972-acc4-8e0cbce0dc37",
+      "orderNo": "RX-20260827-34A5A9",
+      "patientId": "pat-1",
+      "vendorId": "ven-4d4edc56",
+      "doctorName": "Dr. Sarah Ahmed",
+      "doctorId": "OGD-D-1024",
+      "diagnosis": null,
+      "clinicalNotes": null,
+      "vendorAccessToken": "cd9c04e32bae4da1b9d00d6f362d84646df0179b23c34da8904d4e7e5275fe94",
+      "status": "sent",
+      "vendorEmailStatus": "failed",
+      "patientEmailStatus": "failed",
+      "submittedAt": "2026-08-27T08:31:10.713Z",
+      "items": [
+        {
+          "id": "8303f66f-17b3-4700-81da-29a8ffbe4d09",
+          "orderId": "f6503540-0f27-4972-acc4-8e0cbce0dc37",
+          "medicineName": "Paracetamol (Acetaminophen)",
+          "matchedSlug": "paracetamol",
+          "strength": "500 mg tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Panadol",
+            "Calpol"
+          ],
+          "availability": "pending"
+        }
+      ],
+      "patient": {
+        "id": "pat-1",
+        "medicalRecordNo": "MR-001",
+        "fullName": "Ahmad Khan",
+        "city": "Lahore",
+        "email": "ahmad@example.com",
+        "phone": "0300-1234567",
+        "allergies": [
+          "Penicillin"
+        ]
+      },
+      "vendor": {
+        "id": "ven-4d4edc56",
+        "name": "Shaheen CHemist",
+        "branch": "Islamabad",
+        "email": "immadkhan303@gmail.com",
+        "phone": "03038064241",
+        "authorizedPerson": "Ahmed Haroon",
+        "licenseNo": "jdw33",
+        "address": "F6 markaz",
+        "city": "Islamabad",
+        "latitude": null,
+        "longitude": null,
+        "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+        "status": "active"
+      }
+    },
+    {
       "id": "ba5e374c-d670-4ffe-91bf-3dd59406f671",
       "orderNo": "RX-20260827-0D545F",
       "patientId": "pat-1",
