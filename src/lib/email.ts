@@ -8,8 +8,10 @@ function getTransporter() {
   const pass = (process.env.EMAIL_HOST_PASSWORD ?? "").replace(/\s/g, ""); // strip spaces from app password
   _transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
-    port: Number(process.env.EMAIL_PORT ?? 587),
-    secure: false, // STARTTLS on port 587
+    port: Number(process.env.EMAIL_PORT ?? 465),
+    secure: (process.env.EMAIL_PORT ?? "465") === "465", // true for 465 (SSL), false for 587 (STARTTLS)
+    // Force IPv4 — Gmail DNS returns IPv6 first which fails on many networks (ENETUNREACH)
+    family: 4,
     auth: {
       user: process.env.EMAIL_HOST_USER,
       pass,

@@ -34,19 +34,292 @@
       "id": "ven-4d4edc56",
       "name": "Shaheen CHemist",
       "branch": "Islamabad",
-      "email": "immadkhan303@gmail.com",
+      "email": "harissiddiqui1230@gmail.com",
       "phone": "03038064241",
       "authorizedPerson": "Ahmed Haroon",
       "licenseNo": "jdw33",
       "address": "F6 markaz",
       "city": "Islamabad",
-      "latitude": null,
-      "longitude": null,
+      "latitude": "",
+      "longitude": "",
       "mapsUrl": "https://share.google/njeFskCfncwomHd58",
       "status": "active"
     }
   ],
   "orders": [
+    {
+      "id": "ace19b5f-6468-4e24-9e35-e529f276b7ea",
+      "orderNo": "RX-20260827-89FCA3",
+      "patientId": "pat-3",
+      "vendorId": "ven-4d4edc56",
+      "doctorName": "Dr. Sarah Ahmed",
+      "doctorId": "OGD-D-1024",
+      "diagnosis": null,
+      "clinicalNotes": null,
+      "vendorAccessToken": "26fd1b1a23ec4d49a96a209f542e787eb97b87f5e0ec49b1877a361eaf5a8698",
+      "status": "sent",
+      "vendorEmailStatus": "sent",
+      "patientEmailStatus": "sent",
+      "submittedAt": "2026-08-27T09:18:09.049Z",
+      "items": [
+        {
+          "id": "3b78b53b-2eb1-434b-b99e-27f4d75b3eb9",
+          "orderId": "ace19b5f-6468-4e24-9e35-e529f276b7ea",
+          "medicineName": "Paracetamol (Acetaminophen)",
+          "matchedSlug": "paracetamol",
+          "strength": "500 mg tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Panadol",
+            "Calpol"
+          ],
+          "availability": "pending"
+        },
+        {
+          "id": "4d93601d-2584-456b-b48e-1318c52de031",
+          "orderId": "ace19b5f-6468-4e24-9e35-e529f276b7ea",
+          "medicineName": "Omeprazole",
+          "matchedSlug": "omeprazole",
+          "strength": "20 mg capsule",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Risek",
+            "Losec"
+          ],
+          "availability": "pending"
+        }
+      ],
+      "patient": {
+        "id": "pat-3",
+        "medicalRecordNo": "MR-003",
+        "fullName": "Zainab Bibi",
+        "city": "Islamabad",
+        "email": "zainab@example.com",
+        "phone": "0333-9876543",
+        "allergies": [
+          "Sulfa drugs"
+        ]
+      },
+      "vendor": {
+        "id": "ven-4d4edc56",
+        "name": "Shaheen CHemist",
+        "branch": "Islamabad",
+        "email": "harissiddiqui1230@gmail.com",
+        "phone": "03038064241",
+        "authorizedPerson": "Ahmed Haroon",
+        "licenseNo": "jdw33",
+        "address": "F6 markaz",
+        "city": "Islamabad",
+        "latitude": "",
+        "longitude": "",
+        "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+        "status": "active"
+      }
+    },
+    {
+      "id": "a972db89-7a84-4edc-a2d2-b38f11b73a75",
+      "orderNo": "RX-20260827-FC335B",
+      "patientId": "pat-1",
+      "vendorId": "ven-4d4edc56",
+      "doctorName": "Dr. Sarah Ahmed",
+      "doctorId": "OGD-D-1024",
+      "diagnosis": null,
+      "clinicalNotes": null,
+      "vendorAccessToken": "bdb6f5366a0c4ea69bb39d27c2cfb0713c3b0f18a3d0442882261f4ad9819314",
+      "status": "fulfilled",
+      "vendorEmailStatus": "sent",
+      "patientEmailStatus": "sent",
+      "submittedAt": "2026-08-27T09:16:13.229Z",
+      "items": [
+        {
+          "id": "11898d7a-0f04-4aa4-8e9b-978a88de0ae7",
+          "orderId": "a972db89-7a84-4edc-a2d2-b38f11b73a75",
+          "medicineName": "Paracetamol (Acetaminophen)",
+          "matchedSlug": "paracetamol",
+          "strength": "500 mg tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Panadol",
+            "Calpol"
+          ],
+          "availability": "in_stock",
+          "qtySupplied": 10,
+          "substitutedName": null,
+          "unitPrice": "499.75",
+          "discountPct": "0",
+          "batchNumber": null,
+          "expiryDate": null,
+          "dispensed": false,
+          "vendorNote": null
+        }
+      ],
+      "patient": {
+        "id": "pat-1",
+        "medicalRecordNo": "MR-001",
+        "fullName": "Ahmad Khan",
+        "city": "Lahore",
+        "email": "ahmad@example.com",
+        "phone": "0300-1234567",
+        "allergies": [
+          "Penicillin"
+        ]
+      },
+      "vendor": {
+        "id": "ven-4d4edc56",
+        "name": "Shaheen CHemist",
+        "branch": "Islamabad",
+        "email": "immadonline702@gmail.com",
+        "phone": "03038064241",
+        "authorizedPerson": "Ahmed Haroon",
+        "licenseNo": "jdw33",
+        "address": "F6 markaz",
+        "city": "Islamabad",
+        "latitude": "",
+        "longitude": "",
+        "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+        "status": "active"
+      },
+      "deliveryFee": "0",
+      "paymentMethod": "cash",
+      "paymentStatus": "submitted",
+      "vendorNotes": null,
+      "updatedAt": "2026-08-27T09:18:57.805Z",
+      "fulfilledAt": "2026-08-27T09:18:57.805Z",
+      "acknowledgedAt": "2026-08-27T09:18:57.805Z",
+      "invoiceNumber": "INV-20260827335"
+    },
+    {
+      "id": "f61ab52e-5497-43a2-8264-56478ea49da5",
+      "orderNo": "RX-20260827-AD760B",
+      "patientId": "pat-1",
+      "vendorId": "ven-4d4edc56",
+      "doctorName": "Dr. Sarah Ahmed",
+      "doctorId": "OGD-D-1024",
+      "diagnosis": null,
+      "clinicalNotes": null,
+      "vendorAccessToken": "c5cb0ef7ab114f94bdc11a0b72c42869c9f86739cba441719cf84d7ebf830bd7",
+      "status": "sent",
+      "vendorEmailStatus": "failed",
+      "patientEmailStatus": "failed",
+      "submittedAt": "2026-08-27T09:01:27.313Z",
+      "items": [
+        {
+          "id": "71638258-2d1c-4ce0-a553-d03706c9c1cb",
+          "orderId": "f61ab52e-5497-43a2-8264-56478ea49da5",
+          "medicineName": "Paracetamol (Acetaminophen)",
+          "matchedSlug": "paracetamol",
+          "strength": "500 mg tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Panadol",
+            "Calpol"
+          ],
+          "availability": "pending"
+        }
+      ],
+      "patient": {
+        "id": "pat-1",
+        "medicalRecordNo": "MR-001",
+        "fullName": "Ahmad Khan",
+        "city": "Lahore",
+        "email": "ahmad@example.com",
+        "phone": "0300-1234567",
+        "allergies": [
+          "Penicillin"
+        ]
+      },
+      "vendor": {
+        "id": "ven-4d4edc56",
+        "name": "Shaheen CHemist",
+        "branch": "Islamabad",
+        "email": "immadonline702@gmail.com",
+        "phone": "03038064241",
+        "authorizedPerson": "Ahmed Haroon",
+        "licenseNo": "jdw33",
+        "address": "F6 markaz",
+        "city": "Islamabad",
+        "latitude": "",
+        "longitude": "",
+        "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+        "status": "active"
+      }
+    },
+    {
+      "id": "30221fb7-d353-485f-a54d-c99570933175",
+      "orderNo": "RX-20260827-1B346F",
+      "patientId": "pat-1",
+      "vendorId": "ven-4d4edc56",
+      "doctorName": "Dr. Sarah Ahmed",
+      "doctorId": "OGD-D-1024",
+      "diagnosis": null,
+      "clinicalNotes": null,
+      "vendorAccessToken": "4d5110630ef04900998913553520f1fd5e4e7989104e43288a37d3aa749493c2",
+      "status": "sent",
+      "vendorEmailStatus": "failed",
+      "patientEmailStatus": "failed",
+      "submittedAt": "2026-08-27T08:43:51.955Z",
+      "items": [
+        {
+          "id": "a05cbb8e-f742-498d-a746-ba66805061fd",
+          "orderId": "30221fb7-d353-485f-a54d-c99570933175",
+          "medicineName": "Paracetamol (Acetaminophen)",
+          "matchedSlug": "paracetamol",
+          "strength": "500 mg tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Panadol",
+            "Calpol"
+          ],
+          "availability": "pending"
+        }
+      ],
+      "patient": {
+        "id": "pat-1",
+        "medicalRecordNo": "MR-001",
+        "fullName": "Ahmad Khan",
+        "city": "Lahore",
+        "email": "ahmad@example.com",
+        "phone": "0300-1234567",
+        "allergies": [
+          "Penicillin"
+        ]
+      },
+      "vendor": {
+        "id": "ven-4d4edc56",
+        "name": "Shaheen CHemist",
+        "branch": "Islamabad",
+        "email": "immadkhan303@gmail.com",
+        "phone": "03038064241",
+        "authorizedPerson": "Ahmed Haroon",
+        "licenseNo": "jdw33",
+        "address": "F6 markaz",
+        "city": "Islamabad",
+        "latitude": null,
+        "longitude": null,
+        "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+        "status": "active"
+      }
+    },
     {
       "id": "f6503540-0f27-4972-acc4-8e0cbce0dc37",
       "orderNo": "RX-20260827-34A5A9",
