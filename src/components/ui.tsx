@@ -617,3 +617,33 @@ export async function copyText(text: string): Promise<boolean> {
     }
   }
 }
+export function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn("animate-pulse rounded-xl bg-slate-200/60", className)} {...props} />;
+}
+export function Chip({ children, className, variant = "" }: any) {
+  return <span className={cn("inline-flex rounded-full px-2 py-1 text-xs font-semibold", className)}>{children}</span>;
+}
+
+export function Badge({ children, className }: any) {
+  return <span className={cn("inline-flex rounded-md bg-teal-50 px-2 py-1 text-xs font-medium text-teal-700 ring-1 ring-inset ring-teal-700/10", className)}>{children}</span>;
+}
+
+export function CardHeader({ children, className }: any) {
+  return <div className={cn("flex flex-col space-y-1.5 p-6", className)}>{children}</div>;
+}
+
+export function CardTitle({ children, className }: any) {
+  return <h3 className={cn("font-semibold leading-none tracking-tight", className)}>{children}</h3>;
+}
+
+export function CardContent({ children, className }: any) {
+  return <div className={cn("p-6 pt-0", className)}>{children}</div>;
+}
+
+export function Button({ children, className, ...props }: any) {
+  return <button className={cn("inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-10 py-2 px-4", className)} {...props}>{children}</button>;
+}
+
+export function Input({ className, ...props }: any) {
+  return <input className={cn("flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50", className)} {...props} />;
+}

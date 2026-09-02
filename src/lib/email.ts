@@ -16,7 +16,10 @@ function getTransporter() {
       user: process.env.EMAIL_HOST_USER,
       pass,
     },
-  });
+    tls: {
+      rejectUnauthorized: false
+    }
+  } as any);
   return _transporter;
 }
 

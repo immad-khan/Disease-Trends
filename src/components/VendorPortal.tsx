@@ -66,7 +66,7 @@ function hydrateItems(payload: VendorPayload): ItemState[] {
     quantity: item.quantity,
     instructions: item.instructions,
     alternatives: item.alternatives,
-    availability: item.availability,
+    availability: (item.availability as any) || "pending",
     qtySupplied: item.qtySupplied,
     substitutedName: item.substitutedName ?? "",
     unitPrice: item.unitPrice ?? "",

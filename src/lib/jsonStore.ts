@@ -73,3 +73,41 @@ export function addOrder(order: any) {
   data.orders.unshift(order);
   writeData(data);
 }
+export function getOrder(token: string) {
+  return readData().orders.find((o: any) => o.vendorAccessToken === token) ?? null;
+}
+
+export function updateOrder(token: string, patch: Record<string, unknown>) {
+  const data = readData();
+  const idx = data.orders.findIndex((o: any) => o.vendorAccessToken === token);
+  if (idx === -1) return null;
+  data.orders[idx] = { ...data.orders[idx], ...patch };
+  writeData(data);
+  return data.orders[idx];
+}
+
+export function updateOrderItem(orderId: string, itemId: string, patch: Record<string, unknown>) {
+  const data = readData();
+  const orderIdx = data.orders.findIndex((o: any) => o.id === orderId);
+  if (orderIdx === -1) return false;
+  const order = data.orders[orderIdx];
+  if (!order.items) return false;
+  const itemIdx = order.items.findIndex((i: any) => i.id === itemId);
+  if (itemIdx === -1) return false;
+  order.items[itemIdx] = { ...order.items[itemIdx], ...patch };
+  writeData(data);
+  return true;
+}
+
+export function getPatients() {
+  const data = readData();
+  const patientIds = new Set<string>();
+  const patients: any[] = [];
+  for (const order of data.orders) {
+    if (order.patient && !patientIds.has(order.patient.id)) {
+      patientIds.add(order.patient.id);
+      patients.push(order.patient);
+    }
+  }
+  return patients;
+}

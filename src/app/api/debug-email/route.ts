@@ -22,7 +22,7 @@ export async function GET() {
         family: 4,
         tls: { rejectUnauthorized: false },
         auth: { user, pass: cleanPass },
-      });
+      } as any);
       // Verify connection first
       await transport.verify();
       // Send test email
