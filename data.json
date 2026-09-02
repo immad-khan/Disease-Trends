@@ -34,7 +34,7 @@
       "id": "ven-4d4edc56",
       "name": "Shaheen CHemist",
       "branch": "Islamabad",
-      "email": "harissiddiqui1230@gmail.com",
+      "email": "immadkhan303@gmail.com",
       "phone": "03038064241",
       "authorizedPerson": "Ahmed Haroon",
       "licenseNo": "jdw33",
@@ -47,6 +47,64 @@
     }
   ],
   "orders": [
+    {
+      "id": "2c118ca7-36db-4685-981b-37aaf7cda237",
+      "orderNo": "RX-20260902-424898",
+      "patientId": "pat-2",
+      "vendorId": "ven-4d4edc56",
+      "doctorName": "Dr. Sarah Ahmed",
+      "doctorId": "OGD-D-1024",
+      "diagnosis": null,
+      "clinicalNotes": null,
+      "vendorAccessToken": "ab3663a4fd464be5910335a47cb4911d0bf2589dccaa4d538ca8edf59c34310e",
+      "status": "sent",
+      "vendorEmailStatus": "sent",
+      "patientEmailStatus": "sent",
+      "submittedAt": "2026-09-02T05:47:01.643Z",
+      "items": [
+        {
+          "id": "2a0d7569-ae71-4209-ac40-de1980a1f25b",
+          "orderId": "2c118ca7-36db-4685-981b-37aaf7cda237",
+          "medicineName": "Paracetamol (Acetaminophen)",
+          "matchedSlug": "paracetamol",
+          "strength": "500 mg tablet",
+          "dosage": "1 tablet",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food",
+          "quantity": 10,
+          "alternatives": [
+            "Panadol",
+            "Calpol"
+          ],
+          "availability": "pending"
+        }
+      ],
+      "patient": {
+        "id": "pat-2",
+        "medicalRecordNo": "MR-002",
+        "fullName": "Fatima Ali",
+        "city": "Karachi",
+        "email": "fatima@example.com",
+        "phone": "0321-7654321",
+        "allergies": []
+      },
+      "vendor": {
+        "id": "ven-4d4edc56",
+        "name": "Shaheen CHemist",
+        "branch": "Islamabad",
+        "email": "immadkhan303@gmail.com",
+        "phone": "03038064241",
+        "authorizedPerson": "Ahmed Haroon",
+        "licenseNo": "jdw33",
+        "address": "F6 markaz",
+        "city": "Islamabad",
+        "latitude": "",
+        "longitude": "",
+        "mapsUrl": "https://share.google/njeFskCfncwomHd58",
+        "status": "active"
+      }
+    },
     {
       "id": "ace19b5f-6468-4e24-9e35-e529f276b7ea",
       "orderNo": "RX-20260827-89FCA3",
