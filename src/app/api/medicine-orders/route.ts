@@ -1,5 +1,4 @@
-import { getOrders, addOrder, getVendors } from "@/lib/jsonStore";
-import { mockPatients } from "@/app/api/patients/route";
+import { getOrders, addOrder, getVendors, getPatients } from "@/lib/jsonStore";
 import { sendVendorEmail, sendPatientEmail } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +23,7 @@ export async function POST(req: Request) {
     const token = crypto.randomUUID().replaceAll("-", "") + crypto.randomUUID().replaceAll("-", "");
     const orderNo = orderNumber();
 
-    const patientData = mockPatients.find(p => p.id === body.patientId) || { medicalRecordNo: "MR-001", fullName: "Ahmad Khan", email: "immadonline702@gmail.com" };
+    const patientData = getPatients().find(p => p.id === body.patientId) || { medicalRecordNo: "MR-001", fullName: "Ahmad Khan", email: "immadonline702@gmail.com" };
     const vendorData = getVendors().find(v => v.id === body.vendorId) || { name: "Al-Shifa Pharmacy", branch: "Main Branch", authorizedPerson: "Dr. Usman", phone: "042-31112222", address: "123 Health Ave", mapsUrl: "", email: "immadonline702@gmail.com" };
 
     const forwardedHost = req.headers.get("x-forwarded-host") || req.headers.get("host");

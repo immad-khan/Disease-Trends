@@ -1,19 +1,34 @@
-export const dynamic = "force-dynamic";
+import { getPatients, addPatient } from "@/lib/jsonStore";
 
-export const mockPatients = [
-  { id: "pat-1", medicalRecordNo: "MR-001", fullName: "Ahmad Khan", city: "Lahore", email: "ahmad@example.com", phone: "0300-1234567", allergies: ["Penicillin"] },
-  { id: "pat-2", medicalRecordNo: "MR-002", fullName: "Fatima Ali", city: "Karachi", email: "fatima@example.com", phone: "0321-7654321", allergies: [] },
-  { id: "pat-3", medicalRecordNo: "MR-003", fullName: "Zainab Bibi", city: "Islamabad", email: "zainab@example.com", phone: "0333-9876543", allergies: ["Sulfa drugs"] },
-];
+export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const q = searchParams.get("q")?.trim().toLowerCase();
   
-  let rows = mockPatients;
+  let rows = getPatients();
   if (q) {
     rows = rows.filter(p => p.fullName.toLowerCase().includes(q) || p.medicalRecordNo.toLowerCase().includes(q));
   }
   
   return Response.json({ patients: rows });
+}
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    const newPatient = {
+      id: "pat-" + Date.now(),
+      medicalRecordNo: body.medicalRecordNo || ("MR-" + Math.floor(Math.random() * 10000)),
+      fullName: body.fullName,
+      city: body.city,
+      email: body.email,
+      phone: body.phone,
+      allergies: body.allergies || []
+    };
+    addPatient(newPatient);
+    return Response.json({ ok: true, patient: newPatient });
+  } catch (e) {
+    return Response.json({ ok: false, error: "Invalid patient data" }, { status: 400 });
+  }
 }

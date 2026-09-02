@@ -12,6 +12,7 @@ import type { MedicineOrderItemRow, MedicineOrderRow, MedicineVendorRow, Patient
 import { Chip } from "@/components/ui";
 import { VoiceField, VoiceTextarea } from "./VoiceField";
 import VendorEditor from "./VendorEditor";
+import PatientEditor from "./PatientEditor";
 
 interface DraftMedicine {
   id: string; medicineName: string; matchedSlug: string | null; strength: string;
@@ -194,7 +195,10 @@ function NewOrder({ onCreated }: { onCreated: () => void }) {
       <div className="card p-4 sm:p-5">
         <div className="grid gap-4 lg:grid-cols-2">
           <div>
-            <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-aqua-600"><UserRound className="h-3.5 w-3.5" /> Select Patient</p>
+            <div className="flex items-center justify-between">
+              <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-aqua-600"><UserRound className="h-3.5 w-3.5" /> Select Patient</p>
+              <PatientEditor patients={patients} onUpdated={() => setVendorKey((k) => k + 1)} />
+            </div>
             <select value={patientId} onChange={(e) => setPatientId(e.target.value)} className="mt-3 w-full rounded-xl border border-slate-200 px-3 py-2.5 text-[13px] outline-none focus:border-aqua-400">
               <option value="">Choose by patient name / ID…</option>
               {patients.map((p) => <option key={p.id} value={p.id}>{p.medicalRecordNo} — {p.fullName}</option>)}
