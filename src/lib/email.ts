@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 
 // Lazy transporter: created on first send so env vars are always resolved.
-let _transporter: ReturnType<typeof nodemailer.createTransport> | null = null;
+let _transporter: any = null;
 
 function getTransporter() {
   if (_transporter) return _transporter;
