@@ -271,44 +271,182 @@ function OrderDashboard({ refreshKey }: { refreshKey: number }) {
   const [orders, setOrders] = useState<FullOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [smtp, setSmtp] = useState(false);
-  function load() { setLoading(true); fetch("/api/medicine-orders").then((r) => r.json()).then((j) => { setOrders(j.orders ?? []); setSmtp(j.smtpConfigured); setLoading(false); }).catch(() => setLoading(false)); }
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  function load() {
+    setLoading(true);
+    fetch("/api/medicine-orders")
+      .then((r) => r.json())
+      .then((j) => { setOrders(j.orders ?? []); setSmtp(j.smtpConfigured); setLoading(false); })
+      .catch(() => setLoading(false));
+  }
   useEffect(load, [refreshKey]);
+
+  function availIcon(a: string) {
+    if (a === "in_stock" || a === "available") return <PackageCheck className="h-3.5 w-3.5 text-emerald-500" />;
+    if (a === "unavailable" || a === "out_of_stock") return <XCircle className="h-3.5 w-3.5 text-rose-500" />;
+    if (a === "substituted" || a === "alternative_available") return <PackageCheck className="h-3.5 w-3.5 text-amber-500" />;
+    return <Loader2 className="h-3.5 w-3.5 animate-spin text-sky-400" />;
+  }
+  function availLabel(a: string) {
+    const map: Record<string, string> = {
+      in_stock: "In stock", out_of_stock: "Out of stock",
+      partial: "Partial", substituted: "Substituted",
+      available: "Available", unavailable: "Unavailable",
+      alternative_available: "Alternative", pending: "Pending",
+      acknowledged: "Acknowledged", fulfilled: "Fulfilled",
+    };
+    return map[a] ?? a.replaceAll("_", " ");
+  }
+
+  const vendorResponded = (o: FullOrder) =>
+    o.status === "fulfilled" || o.status === "acknowledged" || o.status === "collected" ||
+    o.items?.some((i: any) => i.availability !== "pending");
 
   return (
     <div className="space-y-4">
-      {!smtp && <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-[11.5px] text-amber-700"><b>SMTP not configured.</b> Add SMTP_HOST, SMTP_USER, SMTP_PASS, SMTP_PORT, SMTP_FROM.</div>}
-      <div className="flex items-center justify-between"><p className="text-[11px] text-slate-500">{orders.length} order{orders.length !== 1 ? "s" : ""}</p><button onClick={load} className="inline-flex items-center gap-1.5 rounded-full border border-aqua-200 px-3 py-1.5 text-[11px] font-semibold text-aqua-700"><RefreshCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} /> Refresh</button></div>
-      {orders.length === 0 && !loading ? (<div className="card p-8 text-center text-[12px] text-slate-400">No orders yet.</div>) : orders.map((o) => (
-        <motion.div key={o.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="card p-4 sm:p-5">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div><p className="font-display text-[15px] font-bold text-aqua-950">{o.orderNo}</p><p className="mt-0.5 text-[11px] text-slate-400">{o.patient?.medicalRecordNo} · {o.patient?.fullName} · Dr. {o.doctorName}</p></div>
-            <span className={`rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${statusTone(o.status)}`}>{o.status.replaceAll("_", " ")}</span>
+      {!smtp && <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-[11.5px] text-amber-700"><b>SMTP not configured.</b> Add EMAIL_HOST, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD env vars.</div>}
+      <div className="flex items-center justify-between">
+        <p className="text-[11px] text-slate-500">{orders.length} order{orders.length !== 1 ? "s" : ""}</p>
+        <button onClick={load} className="inline-flex items-center gap-1.5 rounded-full border border-aqua-200 px-3 py-1.5 text-[11px] font-semibold text-aqua-700">
+          <RefreshCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} /> Refresh
+        </button>
+      </div>
+
+      {orders.length === 0 && !loading ? (
+        <div className="card p-8 text-center text-[12px] text-slate-400">No orders yet.</div>
+      ) : orders.map((o) => (
+        <motion.div key={o.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="card overflow-hidden">
+          {/* Order header */}
+          <div
+            className="flex cursor-pointer flex-wrap items-start justify-between gap-3 p-4 sm:p-5"
+            onClick={() => setExpanded(expanded === o.id ? null : o.id)}
+          >
+            <div>
+              <p className="font-display text-[15px] font-bold text-aqua-950">{o.orderNo}</p>
+              <p className="mt-0.5 text-[11px] text-slate-400">
+                {o.patient?.medicalRecordNo} · {o.patient?.fullName} · Dr. {o.doctorName}
+              </p>
+              {vendorResponded(o) && (
+                <p className="mt-1 text-[10.5px] font-semibold text-emerald-600">
+                  ✓ Vendor responded
+                  {(o as any).invoiceNumber ? ` · Invoice: ${(o as any).invoiceNumber}` : ""}
+                </p>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={`rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${statusTone(o.status)}`}>
+                {o.status.replaceAll("_", " ")}
+              </span>
+              <span className="text-slate-300 text-[10px]">{expanded === o.id ? "▲" : "▼"}</span>
+            </div>
           </div>
-          <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_260px]">
-            <div className="space-y-1.5">
-              {o.items.map((i) => (
-                <div key={i.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-100 px-3 py-2 text-[11.5px]">
-                  <span className="font-semibold text-slate-700">{i.medicineName} · {i.strength} · {i.dosage} {i.frequency}</span>
-                  <span className={`flex items-center gap-1 font-semibold ${i.availability === "unavailable" ? "text-rose-600" : i.availability === "pending" ? "text-sky-600" : "text-emerald-600"}`}>
-                    {i.availability === "unavailable" ? <XCircle className="h-3.5 w-3.5" /> : <PackageCheck className="h-3.5 w-3.5" />}{i.availability.replaceAll("_", " ")}
-                    {i.suppliedMedicine ? ` · ${i.suppliedMedicine}` : ""}
-                  </span>
+
+          {/* Expanded detail */}
+          <AnimatePresenceWrapper show={expanded === o.id}>
+            <div className="border-t border-slate-100 p-4 sm:p-5 space-y-4">
+
+              {/* Medicine items with vendor response */}
+              <div>
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-aqua-600">Medicines & Vendor Response</p>
+                <div className="space-y-2">
+                  {o.items.map((i: any) => (
+                    <div key={i.id} className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-2.5">
+                      <div className="flex flex-wrap items-start justify-between gap-2">
+                        <div>
+                          <p className="font-semibold text-[12.5px] text-slate-800">
+                            {i.medicineName}
+                            {i.strength ? ` · ${i.strength}` : ""}
+                            {i.substitutedName ? <span className="ml-1 text-amber-600"> → {i.substitutedName}</span> : ""}
+                          </p>
+                          <p className="mt-0.5 text-[11px] text-slate-400">
+                            {i.dosage ?? i.dose} · {i.frequency} · {i.duration} · Qty: {i.quantity}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[11.5px] font-semibold">
+                          {availIcon(i.availability)}
+                          <span className={
+                            (i.availability === "in_stock" || i.availability === "available") ? "text-emerald-700" :
+                            (i.availability === "out_of_stock" || i.availability === "unavailable") ? "text-rose-600" :
+                            (i.availability === "substituted" || i.availability === "alternative_available") ? "text-amber-700" :
+                            "text-sky-600"
+                          }>
+                            {availLabel(i.availability)}
+                          </span>
+                        </div>
+                      </div>
+                      {/* Vendor-filled details */}
+                      {(i.qtySupplied > 0 || i.unitPrice || i.vendorNote || i.vendorItemNote) && (
+                        <div className="mt-2 flex flex-wrap gap-3 rounded-lg bg-white px-2.5 py-2 text-[11px] text-slate-500">
+                          {i.qtySupplied > 0 && <span><b>Supplied:</b> {i.qtySupplied}</span>}
+                          {(i.unitPrice || i.unitPricePaisa) && (
+                            <span><b>Unit price:</b> {i.unitPricePaisa != null
+                              ? `PKR ${(i.unitPricePaisa / 100).toFixed(2)}`
+                              : `PKR ${i.unitPrice}`}
+                            </span>
+                          )}
+                          {i.batchNumber && <span><b>Batch:</b> {i.batchNumber}</span>}
+                          {i.expiryDate && <span><b>Expiry:</b> {i.expiryDate}</span>}
+                          {(i.vendorNote || i.vendorItemNote) && <span className="col-span-2"><b>Note:</b> {i.vendorNote ?? i.vendorItemNote}</span>}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              {/* Bill & invoice summary */}
+              {((o as any).billAmountPaisa != null || (o as any).invoiceNumber || (o as any).billReference || (o as any).fulfilledAt) && (
+                <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-emerald-700">Bill & Invoice</p>
+                  <div className="grid gap-2 text-[12px] text-slate-700 sm:grid-cols-2">
+                    {(o as any).invoiceNumber && <p><b>Invoice #:</b> {(o as any).invoiceNumber}</p>}
+                    {(o as any).billReference && <p><b>Bill Ref:</b> {(o as any).billReference}</p>}
+                    {(o as any).billAmountPaisa != null && (
+                      <p className="font-display text-[15px] font-bold text-emerald-800">
+                        PKR {((o as any).billAmountPaisa / 100).toLocaleString("en-PK")}
+                      </p>
+                    )}
+                    {(o as any).deliveryFee && parseFloat((o as any).deliveryFee) > 0 && (
+                      <p><b>Delivery fee:</b> PKR {parseFloat((o as any).deliveryFee).toFixed(0)}</p>
+                    )}
+                    {(o as any).paymentMethod && <p><b>Payment:</b> {(o as any).paymentMethod}</p>}
+                    {(o as any).paymentStatus && <p><b>Payment status:</b> {(o as any).paymentStatus}</p>}
+                    {(o as any).fulfilledAt && <p><b>Fulfilled at:</b> {new Date((o as any).fulfilledAt).toLocaleString("en-PK")}</p>}
+                    {(o as any).billDocumentUrl && (
+                      <a href={(o as any).billDocumentUrl} target="_blank" rel="noreferrer" className="col-span-2 font-semibold text-aqua-600 hover:underline">
+                        View bill document →
+                      </a>
+                    )}
+                  </div>
+                  {(o as any).vendorNotes && (
+                    <p className="mt-2 rounded-lg bg-white px-3 py-2 text-[11.5px] text-slate-600"><b>Vendor notes:</b> {(o as any).vendorNotes}</p>
+                  )}
+                </div>
+              )}
+
+              {/* Vendor card */}
+              <div className="rounded-xl bg-slate-50 p-3 text-[11px] text-slate-600">
+                <p className="font-semibold text-aqua-900">{o.vendor?.name} — {o.vendor?.branch}</p>
+                <p className="mt-1">Auth: {o.vendor?.authorizedPerson}</p>
+                <p className="mt-0.5">Email: {o.vendorEmailStatus} · Patient: {o.patientEmailStatus}</p>
+                {o.vendor?.mapsUrl && (
+                  <a href={o.vendor.mapsUrl} target="_blank" rel="noreferrer" className="mt-1 flex items-center gap-1 font-semibold text-aqua-600 hover:underline">
+                    <MapPin className="h-3 w-3" />View location<ExternalLink className="h-3 w-3" />
+                  </a>
+                )}
+              </div>
             </div>
-            <div className="rounded-xl bg-slate-50 p-3 text-[11px] text-slate-600">
-              <p className="font-semibold text-aqua-900">{o.vendor?.name} — {o.vendor?.branch}</p>
-              <p className="mt-1">Auth: {o.vendor?.authorizedPerson}</p>
-              {o.vendor?.mapsUrl && <a href={o.vendor.mapsUrl} target="_blank" rel="noreferrer" className="mt-1 flex items-center gap-1 font-semibold text-aqua-600 hover:underline"><MapPin className="h-3 w-3" />View location<ExternalLink className="h-3 w-3" /></a>}
-              <p className="mt-1">Vendor email: {o.vendorEmailStatus}</p>
-              <p>Patient email: {o.patientEmailStatus}</p>
-              {o.billReference && <><hr className="my-2 border-slate-200" /><p><b>Invoice:</b> {o.billReference}</p><p className="font-display mt-1 text-[14px] font-bold text-aqua-900">PKR {((o.billAmountPaisa ?? 0) / 100).toLocaleString("en-PK")}</p>{o.billDocumentUrl && <a href={o.billDocumentUrl} target="_blank" className="mt-1 inline-block font-semibold text-aqua-600">Bill document →</a>}</>}
-            </div>
-          </div>
+          </AnimatePresenceWrapper>
         </motion.div>
       ))}
     </div>
   );
+}
+
+function AnimatePresenceWrapper({ show, children }: { show: boolean; children: React.ReactNode }) {
+  if (!show) return null;
+  return <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>{children}</motion.div>;
 }
 
 export default function MedicineOrderModule() {
